@@ -1,0 +1,163 @@
+@import "tailwindcss";
+
+:root {
+  /* Light Mode */
+  --background: 0 0% 100%;
+  --foreground: 222.2 84% 4.9%;
+  --card: 0 0% 100%;
+  --card-foreground: 222.2 84% 4.9%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 222.2 84% 4.9%;
+  --primary: 173 58% 39%; /* #2A9D8F */
+  --primary-foreground: 0 0% 100%;
+  --secondary: 27 90% 67%; /* #F4A261 */
+  --secondary-foreground: 0 0% 100%;
+  --muted: 210 40% 96.1%;
+  --muted-foreground: 215.4 16.3% 46.9%;
+  --accent: 43 74% 66%; /* #E9C46A */
+  --accent-foreground: 204 38% 24%; /* #264653 */
+  --destructive: 12 76% 61%; /* #E76F51 */
+  --destructive-foreground: 210 40% 98%;
+  --border: 214.3 31.8% 91.4%;
+  --input: 214.3 31.8% 91.4%;
+  --ring: 173 58% 39%;
+  --radius: 0.5rem;
+  --chart-1: 173 58% 39%;
+  --chart-2: 27 90% 67%;
+  --chart-3: 199 38% 24%;
+  --chart-4: 43 74% 66%;
+  --chart-5: 12 76% 61%;
+}
+
+.dark {
+  /* Dark Mode */
+  --background: 222.2 84% 4.9%;
+  --foreground: 210 40% 98%;
+  --card: 222.2 84% 4.9%;
+  --card-foreground: 210 40% 98%;
+  --popover: 222.2 84% 4.9%;
+  --popover-foreground: 210 40% 98%;
+  --primary: 173 58% 39%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 27 90% 67%;
+  --secondary-foreground: 0 0% 100%;
+  --muted: 217.2 32.6% 17.5%;
+  --muted-foreground: 215 20.2% 65.1%;
+  --accent: 43 74% 66%;
+  --accent-foreground: 204 38% 24%;
+  --destructive: 12 76% 61%;
+  --destructive-foreground: 210 40% 98%;
+  --border: 217.2 32.6% 17.5%;
+  --input: 217.2 32.6% 17.5%;
+  --ring: 173 58% 39%;
+  --chart-1: 173 58% 39%;
+  --chart-2: 27 90% 67%;
+  --chart-3: 199 38% 24%;
+  --chart-4: 43 74% 66%;
+  --chart-5: 12 76% 61%;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --radius-sm: calc(var(--radius) - 2px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  
+  /* Font Override */
+  --font-mono: var(--font-fira-code);
+  --font-sans: var(--font-montserrat);
+  --font-heading: var(--font-space-grotesk);
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+}
+
+@keyframes blob {
+  0% { transform: translate(0px, 0px) scale(1); }
+  33% { transform: translate(30px, -50px) scale(1.1); }
+  66% { transform: translate(-20px, 20px) scale(0.9); }
+  100% { transform: translate(0px, 0px) scale(1); }
+}
+
+.animate-blob {
+  animation: blob 7s infinite;
+}
+
+.animation-delay-2000 {
+  animation-delay: 2s;
+}
+
+.animation-delay-4000 {
+  animation-delay: 4s;
+}
+
+@layer utilities {
+  .text-gradient {
+    @apply bg-gradient-to-r from-[#2A9D8F] via-[#264653] to-[#F4A261] bg-clip-text text-transparent bg-[length:200%_auto];
+  }
+
+  .card-gradient-hover {
+    @apply relative z-0 transition-transform duration-500 hover:-translate-y-2;
+  }
+  .card-gradient-hover::after {
+    content: "";
+    @apply absolute inset-[-2px] -z-10 bg-gradient-to-r from-[#2A9D8F] via-[#264653] to-[#F4A261] bg-[length:200%_auto] opacity-0 transition-all duration-500 rounded-[inherit] blur-[2px];
+  }
+  .card-gradient-hover:hover::after {
+    @apply opacity-100 shadow-[0_0_20px_-5px_rgba(42,157,143,0.4)];
+    animation: gradient-x 3s ease infinite;
+  }
+
+  .hover-text-gradient {
+    @apply hover:bg-gradient-to-r hover:from-[#2A9D8F] hover:via-[#264653] hover:to-[#F4A261] hover:bg-clip-text hover:text-transparent hover:bg-[length:200%_auto];
+  }
+  .hover-text-gradient:hover {
+    animation: gradient-x 3s ease infinite;
+  }
+}
+
+@keyframes gradient-x {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.animate-gradient-x {
+  animation: gradient-x 3s ease infinite;
+}
+
+.hover-gradient-x:hover {
+  animation: gradient-x 3s ease infinite;
+}
