@@ -64,11 +64,16 @@ export function Navbar() {
                   {link.name}
                 </Link>
               ))}
-              <Button onClick={() => setTheme(theme === "dark" ? "light" : "dark")} variant="ghost" className="p-2 ml-4">
+              <Button 
+                onClick={() => setTheme(theme === "dark" ? "light" : "dark")} 
+                variant="ghost" 
+                className="p-2 ml-4"
+                aria-label="Toggle theme"
+              >
                 <ThemeIcon />
               </Button>
               <Link href="/contact">
-                  <Button variant="primary" className="ml-4">Get a Quote</Button>
+                  <Button variant="primary" className="ml-4 min-h-[48px] min-w-[48px]">Get a Quote</Button>
               </Link>
             </div>
           </div>
@@ -76,9 +81,10 @@ export function Navbar() {
           <div className="-mr-2 flex md:hidden">
             <button
               onClick={toggleMenu}
-              className="inline-flex items-center justify-center p-2 rounded-md text-primary hover:text-blue-500 focus:outline-none"
+              className="inline-flex items-center justify-center p-2 rounded-md text-primary hover:text-blue-500 focus:outline-none min-h-[48px] min-w-[48px]"
+              aria-label={isOpen ? "Close main menu" : "Open main menu"}
             >
-              <span className="sr-only">Open main menu</span>
+              <span className="sr-only">{isOpen ? "Close main menu" : "Open main menu"}</span>
               {isOpen ? <X className="block h-6 w-6" /> : <Menu className="block h-6 w-6" />}
             </button>
           </div>
@@ -106,13 +112,18 @@ export function Navbar() {
             ))}
              <div className="flex items-center justify-between px-3 py-2">
                 <span className="text-sm font-medium">Theme</span>
-                <Button onClick={() => setTheme(theme === "dark" ? "light" : "dark")} variant="ghost" className="p-2">
+                <Button 
+                  onClick={() => setTheme(theme === "dark" ? "light" : "dark")} 
+                  variant="ghost" 
+                  className="p-3 min-h-[48px] min-w-[48px]"
+                  aria-label="Toggle theme"
+                >
                     <ThemeIcon />
                 </Button>
              </div>
              <div className="px-3 py-2">
                  <Link href="/contact" onClick={() => setIsOpen(false)}>
-                    <Button variant="primary" className="w-full">Get a Quote</Button>
+                    <Button variant="primary" className="w-full min-h-[48px]">Get a Quote</Button>
                  </Link>
              </div>
           </div>

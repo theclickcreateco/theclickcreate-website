@@ -68,14 +68,14 @@ export default function RootLayout({ children }) {
           async
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6110592895163597"
           crossOrigin="anonymous"
-          strategy="lazyOnload"
+          strategy="afterInteractive"
         />
 
         {/* Google Site Verification Placeholder */}
         <meta name="google-site-verification" content="YOUR_GSC_VERIFICATION_CODE" />
         
         {/* Google Tag Manager - Replace GTM-XXXXXXX with your ID */}
-        <Script id="gtm-base" strategy="afterInteractive">
+        <Script id="gtm-base" strategy="worker">
           {`(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
           new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
           j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=

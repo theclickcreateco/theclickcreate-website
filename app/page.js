@@ -29,10 +29,10 @@ export default async function Home() {
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <Link href="/contact" className="w-full sm:w-auto">
-                <Button className="text-lg px-8 py-6 w-full sm:w-auto">Get a Free Quote</Button>
+                <Button className="text-lg px-8 py-6 w-full sm:w-auto min-h-[64px]">Get a Free Quote</Button>
               </Link>
               <Link href="#portfolio" className="w-full sm:w-auto">
-                <Button variant="outline" className="text-lg px-8 py-6 w-full sm:w-auto">
+                <Button variant="outline" className="text-lg px-8 py-6 w-full sm:w-auto min-h-[64px]">
                   View Work
                 </Button>
               </Link>
@@ -56,7 +56,13 @@ export default async function Home() {
             {/* Service 1 */}
             <div className="bg-card border border-border rounded-xl p-6 hover:shadow-lg transition-shadow group card-gradient-hover">
               <div className="relative w-full h-48 mb-6 overflow-hidden rounded-lg">
-                 <Image src="/images/service-web.png" alt="Web Development" fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
+                 <Image 
+                    src="/images/service-web.png" 
+                    alt="Web Development" 
+                    fill 
+                    sizes="(max-width: 768px) 100vw, 33vw"
+                    className="object-cover group-hover:scale-105 transition-transform duration-500" 
+                  />
               </div>
               <h3 className="text-2xl font-bold mb-3 font-heading">Web Development</h3>
               <p className="text-muted-foreground">Modern, responsive websites built with cutting-edge technologies.</p>
@@ -65,7 +71,13 @@ export default async function Home() {
             {/* Service 2 */}
             <div className="bg-card border border-border rounded-xl p-6 hover:shadow-lg transition-shadow group card-gradient-hover">
                <div className="relative w-full h-48 mb-6 overflow-hidden rounded-lg">
-                 <Image src="/images/service-ui.png" alt="UI/UX Design" fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
+                 <Image 
+                    src="/images/service-ui.png" 
+                    alt="UI/UX Design" 
+                    fill 
+                    sizes="(max-width: 768px) 100vw, 33vw"
+                    className="object-cover group-hover:scale-105 transition-transform duration-500" 
+                  />
               </div>
               <h3 className="text-2xl font-bold mb-3 font-heading">UI/UX Design</h3>
               <p className="text-muted-foreground">Beautiful interfaces that users love, backed by research and testing.</p>
@@ -74,7 +86,13 @@ export default async function Home() {
             {/* Service 3 */}
             <div className="bg-card border border-border rounded-xl p-6 hover:shadow-lg transition-shadow group card-gradient-hover">
                <div className="relative w-full h-48 mb-6 overflow-hidden rounded-lg">
-                 <Image src="/images/service-marketing.png" alt="Marketing" fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
+                 <Image 
+                    src="/images/service-marketing.png" 
+                    alt="Marketing" 
+                    fill 
+                    sizes="(max-width: 768px) 100vw, 33vw"
+                    className="object-cover group-hover:scale-105 transition-transform duration-500" 
+                  />
               </div>
               <h3 className="text-2xl font-bold mb-3 font-heading">Marketing & Analytics</h3>
               <p className="text-muted-foreground">Data-driven strategies to grow your business and reach your audience.</p>
@@ -108,6 +126,7 @@ export default async function Home() {
                       src={project.image} 
                       alt={project.title} 
                       fill 
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                       className="object-cover group-hover:scale-105 transition-transform duration-500" 
                     />
                   </div>
@@ -148,7 +167,13 @@ export default async function Home() {
               blogPosts.map((post, i) => (
                 <Link key={i} href={`/blog/${post.slug}`} className="group flex flex-col h-full bg-card border border-border rounded-xl hover:border-blue-500 transition-colors card-gradient-hover">
                   <div className="relative w-full h-48 overflow-hidden rounded-t-xl">
-                    <Image src={post.image} alt={post.title} fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
+                    <Image 
+                      src={post.image} 
+                      alt={post.title} 
+                      fill 
+                      sizes="(max-width: 768px) 100vw, 33vw"
+                      className="object-cover group-hover:scale-105 transition-transform duration-500" 
+                    />
                   </div>
                   <div className="p-6 flex-grow flex flex-col justify-between">
                     <div>

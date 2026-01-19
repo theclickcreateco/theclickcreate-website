@@ -43,7 +43,9 @@ export function TypewriterEffect({ words, className }) {
   return (
     <span className={className}>
       {currentText}
-      <span className="inline-block w-[2px] h-[1em] bg-blue-500 ml-1 align-middle animate-blink"></span>
+      <span className="relative">
+        <span className="inline-block w-[2px] h-[1em] bg-blue-500 ml-1 align-middle animate-blink"></span>
+      </span>
       <style jsx>{`
         @keyframes blink {
           0%, 100% { opacity: 1; }
