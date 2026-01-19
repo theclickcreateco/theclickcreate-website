@@ -63,6 +63,23 @@ export default function RootLayout({ children }) {
           strategy="afterInteractive"
         />
 
+        {/* Google AdSense */}
+        <Script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6110592895163597"
+          crossOrigin="anonymous"
+          strategy="lazyOnload"
+        />
+
+        {/* Monetag JS Script */}
+        <Script 
+          src="https://quge5.com/88/tag.min.js" 
+          data-zone="203647" 
+          async 
+          data-cfasync="false"
+          strategy="afterInteractive"
+        />
+
         {/* Google Site Verification Placeholder */}
         <meta name="google-site-verification" content="YOUR_GSC_VERIFICATION_CODE" />
         
