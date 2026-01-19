@@ -1,46 +1,20 @@
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight } from "lucide-react";
-import { AdPlaceholder } from "@/components/ad-placeholder";
 import { SearchBar } from "@/components/search-bar";
-
-const BLOG_POSTS = [
-  { 
-    title: "Top 5 Tips for Responsive Web Design", 
-    desc: "Learn how to make your websites fully responsive across all devices in 2026. Mobile-first approaches and modern CSS techniques.",
-    img: "/images/blog-responsive.png",
-    slug: "responsive-web-design-tips",
-    date: "Jan 15, 2026",
-    category: "Design"
-  },
-  // ... (rest of posts are same, just confirming structure)
-  { 
-    title: "How Branding Impacts Your Business", 
-    desc: "Understand the importance of branding and how it drives customer trust. A deep dive into color psychology and consistency.",
-    img: "/images/blog-branding.png",
-    slug: "branding-impacts-business",
-    date: "Jan 10, 2026",
-    category: "Branding"
-  },
-  { 
-    title: "SEO Strategies for Modern Websites", 
-    desc: "Boost your website traffic with these proven SEO strategies. From technical SEO to content optimization.",
-    img: "/images/hero-illustration.png", // Fallback
-    slug: "seo-strategies-modern-websites",
-    date: "Jan 05, 2026",
-    category: "Marketing"
-  },
-  // Add more mock posts if needed
-];
+import { getBlogPosts, getBlogCategories } from "@/lib/contentful";
 
 export default async function BlogListing({ searchParams }) {
   const { category, q } = await searchParams;
   
-  const categories = Array.from(new Set(BLOG_POSTS.map(p => p.category)));
+  // Fetch all blog posts and categories from Contentful
+  const allPosts = await getBlogPosts();
+  const categories = await getBlogCategories();
 
-  const filteredPosts = BLOG_POSTS.filter(post => {
+  // Filter posts based on category and search query
+  const filteredPosts = allPosts.filter(post => {
       const matchCategory = category ? post.category.toLowerCase() === category.toLowerCase() : true;
-      const matchSearch = q ? (post.title.toLowerCase().includes(q.toLowerCase()) || post.desc.toLowerCase().includes(q.toLowerCase())) : true;
+      const matchSearch = q ? (post.title.toLowerCase().includes(q.toLowerCase()) || post.description.toLowerCase().includes(q.toLowerCase())) : true;
       return matchCategory && matchSearch;
   });
 
@@ -86,10 +60,6 @@ export default async function BlogListing({ searchParams }) {
         )}
       </div>
 
-      <div className="mb-16">
-         <AdPlaceholder slotId="blog-top" />
-      </div>
-
       {filteredPosts.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
             {filteredPosts.map((post, i) => (
@@ -98,7 +68,7 @@ export default async function BlogListing({ searchParams }) {
                 <span className="sr-only">View {post.title}</span>
                 </Link>
                 <div className="relative w-full h-56 overflow-hidden pointer-events-none rounded-t-xl">
-                    <Image src={post.img} alt={post.title} fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
+                    <Image src={post.image} alt={post.title} fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
                     <Link href={`/blog?category=${post.category.toLowerCase()}`} className="absolute top-4 left-4 bg-background/90 backdrop-blur px-3 py-1 rounded-full text-xs font-bold text-blue-500 uppercase hover:bg-blue-500 hover:text-white transition-colors z-10 pointer-events-auto">
                         {post.category}
                     </Link>
@@ -106,7 +76,7 @@ export default async function BlogListing({ searchParams }) {
                 <div className="p-6 flex-grow flex flex-col pointer-events-none">
                 <div className="text-xs text-muted-foreground mb-3">{post.date}</div>
                 <h2 className="text-xl font-bold mb-3 group-hover:text-blue-500 transition-colors">{post.title}</h2>
-                <p className="text-muted-foreground text-sm line-clamp-3 mb-4 flex-grow">{post.desc}</p>
+                <p className="text-muted-foreground text-sm line-clamp-3 mb-4 flex-grow">{post.description}</p>
                 <div className="flex items-center text-sm font-medium text-blue-500 mt-auto">
                     Read Full Article <ArrowRight className="ml-2 w-4 h-4" />
                 </div>
@@ -120,10 +90,6 @@ export default async function BlogListing({ searchParams }) {
               <Link href="/blog" className="text-blue-500 hover:underline mt-4 inline-block">View All Posts</Link>
           </div>
       )}
-      
-      <div className="mt-16">
-         <AdPlaceholder slotId="blog-bottom" />
-      </div>
     </div>
   );
 }

@@ -1,16 +1,22 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/button";
-import { AdPlaceholder } from "@/components/ad-placeholder";
 import { TypewriterEffect } from "@/components/typewriter-effect";
-import { ArrowRight, Code, Palette, BarChart3, ExternalLink } from "lucide-react";
-
+import { ArrowRight, Code, Palette, BarChart3 } from "lucide-react";
 import { HeroGraphic } from "@/components/hero-graphic";
+import { getBlogPosts, getPortfolioProjects } from "@/lib/contentful";
+import { AdPlaceholder } from "@/components/ad-placeholder";
 
-export default function Home() {
+export default async function Home() {
+  // Fetch latest content from Contentful
+  const allBlogPosts = await getBlogPosts();
+  const blogPosts = allBlogPosts.slice(0, 3); // Latest 3 posts
+  
+  const allProjects = await getPortfolioProjects();
+  const portfolioProjects = allProjects.slice(0, 6); // Latest 6 projects
+
   return (
-    <div className="flex flex-col gap-16 pb-16">
-      
+    <div>
       {/* Hero Section */}
       <section className="relative px-4 sm:px-6 lg:px-8 pt-20 pb-20 md:pt-32 md:pb-32 overflow-hidden">
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
@@ -39,14 +45,12 @@ export default function Home() {
       </section>
 
       {/* Services Section */}
-      <section id="services" className="px-4 sm:px-6 lg:px-8 py-16 bg-secondary/30">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold font-heading mb-4 text-gradient inline-block">Our Services</h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto">
-              Solutions crafted to elevate your business. We combine technical expertise with creative design.
-            </p>
-          </div>
+      <section className="py-20 bg-secondary/10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-4 font-heading text-gradient">Our Services</h2>
+          <p className="text-center text-muted-foreground mb-12 max-w-2xl mx-auto">
+            From concept to launch, we handle every aspect of your digital presence.
+          </p>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {/* Service 1 */}
@@ -54,10 +58,8 @@ export default function Home() {
               <div className="relative w-full h-48 mb-6 overflow-hidden rounded-lg">
                  <Image src="/images/service-web.png" alt="Web Development" fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
               </div>
-              <h3 className="text-xl font-bold mb-2 flex items-center gap-2">
-                <Code className="w-5 h-5 text-blue-500" /> Web Development
-              </h3>
-              <p className="text-muted-foreground">Building responsive, modern websites with clean code and excellent UX.</p>
+              <h3 className="text-2xl font-bold mb-3 font-heading">Web Development</h3>
+              <p className="text-muted-foreground">Modern, responsive websites built with cutting-edge technologies.</p>
             </div>
 
             {/* Service 2 */}
@@ -65,10 +67,8 @@ export default function Home() {
                <div className="relative w-full h-48 mb-6 overflow-hidden rounded-lg">
                  <Image src="/images/service-ui.png" alt="UI/UX Design" fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
               </div>
-              <h3 className="text-xl font-bold mb-2 flex items-center gap-2">
-                <Palette className="w-5 h-5 text-purple-500" /> UI/UX Design
-              </h3>
-              <p className="text-muted-foreground">Creating visually appealing and user-friendly interfaces for your business.</p>
+              <h3 className="text-2xl font-bold mb-3 font-heading">UI/UX Design</h3>
+              <p className="text-muted-foreground">Beautiful interfaces that users love, backed by research and testing.</p>
             </div>
 
             {/* Service 3 */}
@@ -76,110 +76,106 @@ export default function Home() {
                <div className="relative w-full h-48 mb-6 overflow-hidden rounded-lg">
                  <Image src="/images/service-marketing.png" alt="Marketing" fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
               </div>
-              <h3 className="text-xl font-bold mb-2 flex items-center gap-2">
-                <BarChart3 className="w-5 h-5 text-green-500" /> Marketing & Analytics
-              </h3>
-              <p className="text-muted-foreground">Optimizing digital marketing strategies with data-driven insights.</p>
+              <h3 className="text-2xl font-bold mb-3 font-heading">Marketing & Analytics</h3>
+              <p className="text-muted-foreground">Data-driven strategies to grow your business and reach your audience.</p>
             </div>
           </div>
         </div>
       </section>
 
       {/* Ad Section */}
-      <section className="max-w-7xl mx-auto px-4 w-full">
-         <AdPlaceholder slotId="home-after-services" />
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <AdPlaceholder slotId="home-after-services" />
       </section>
 
       {/* Portfolio Section */}
+      {/* Portfolio Preview */}
       <section id="portfolio" className="px-4 sm:px-6 lg:px-8 py-16">
         <div className="max-w-7xl mx-auto">
-           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold font-heading mb-4 text-gradient inline-block">Our Portfolio</h2>
-            <p className="text-muted-foreground mb-6">Some of our recent projects and creative solutions.</p>
-            <Link href="/portfolio" className="inline-flex items-center text-blue-500 hover:text-blue-400 font-medium">
-              View All Works <ArrowRight className="ml-2 w-4 h-4" />
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 font-heading text-gradient">Our Portfolio</h2>
+            <p className="text-muted-foreground max-w-2xl mx-auto">
+              Check out some of our recent projects and success stories.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+            {portfolioProjects.length > 0 ? (
+              portfolioProjects.map((project, i) => (
+                <div key={i} className="group relative bg-card border border-border rounded-xl hover:shadow-xl transition-all card-gradient-hover">
+                  <div className="relative aspect-video w-full overflow-hidden rounded-t-xl">
+                    <Image 
+                      src={project.image} 
+                      alt={project.title} 
+                      fill 
+                      className="object-cover group-hover:scale-105 transition-transform duration-500" 
+                    />
+                  </div>
+                  <div className="p-6">
+                    <span className="text-xs text-muted-foreground uppercase tracking-wider">{project.category}</span>
+                    <h3 className="text-xl font-bold mt-2 mb-2 font-heading">{project.title}</h3>
+                    <p className="text-muted-foreground text-sm line-clamp-2">{project.description}</p>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <div className="col-span-3 text-center py-12">
+                <p className="text-muted-foreground">No projects available yet. Add some in Contentful!</p>
+              </div>
+            )}
+          </div>
+          
+          <div className="text-center">
+            <Link href="/portfolio">
+              <Button variant="outline" className="px-8 py-4">View All Works</Button>
             </Link>
           </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {[
-              { title: "Fresh Foods Website", cat: "Web Development", image: "/images/service-web.png" },
-              { title: "Restaurant Branding", cat: "Branding", image: "/images/blog-branding.png" },
-              { title: "E-commerce Platform", cat: "UI/UX Design", image: "/images/service-ui.png" },
-              { title: "Mobile App UI", cat: "Mobile App", image: "/images/hero-illustration.png" },
-              { title: "Marketing Dashboard", cat: "Analytics", image: "/images/service-marketing.png" },
-              { title: "Blog Platform", cat: "Web Design", image: "/images/blog-responsive.png" },
-            ].map((item, i) => (
-              <div key={i} className="group relative bg-card border border-border rounded-xl hover:shadow-xl transition-all card-gradient-hover">
-                <div className="relative aspect-video w-full overflow-hidden rounded-t-xl">
-                   <Image 
-                    src={item.image} 
-                    alt={item.title} 
-                    fill 
-                    className="object-cover group-hover:scale-105 transition-transform duration-500" 
-                   />
-                   <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                    <ExternalLink className="w-8 h-8 text-white" />
-                   </div>
-                </div>
-                <div className="p-6">
-                  <span className="text-xs font-heading text-blue-500 uppercase tracking-wider">{item.cat}</span>
-                  <h3 className="text-xl font-bold mt-2">{item.title}</h3>
-                </div>
-              </div>
-            ))}
-          </div>
         </div>
       </section>
 
-      {/* Blog Section */}
+      {/* Blog Preview */}
       <section className="px-4 sm:px-6 lg:px-8 py-16 bg-secondary/30">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold font-heading mb-4 text-gradient inline-block">Our Blog</h2>
-            <p className="text-muted-foreground">Latest insights, tips, and guides for your business growth.</p>
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 font-heading text-gradient">Our Blog</h2>
+            <p className="text-muted-foreground max-w-2xl mx-auto">
+              Insights, guides, and news from the tech world.
+            </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[
-              { 
-                title: "Top 5 Tips for Responsive Web Design", 
-                desc: "Learn how to make your websites fully responsive across all devices.",
-                img: "/images/blog-responsive.png",
-                slug: "responsive-web-design-tips"
-              },
-              { 
-                title: "How Branding Impacts Your Business", 
-                desc: "Understand the importance of branding and how it drives customer trust.",
-                img: "/images/blog-branding.png",
-                slug: "branding-impacts-business"
-              },
-              { 
-                title: "SEO Strategies for Modern Websites", 
-                desc: "Boost your website traffic with these proven SEO strategies.",
-                img: "/images/hero-illustration.png", // Reuse hero as fallback since SEO image failed
-                slug: "seo-strategies-modern-websites"
-              }
-            ].map((post, i) => (
-              <Link key={i} href={`/blog/${post.slug}`} className="group flex flex-col h-full bg-card border border-border rounded-xl hover:border-blue-500 transition-colors card-gradient-hover">
-                <div className="relative w-full h-48 overflow-hidden rounded-t-xl">
-                   <Image src={post.img} alt={post.title} fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
-                </div>
-                <div className="p-6 flex-grow flex flex-col justify-between">
-                  <div>
-                    <h3 className="text-lg font-bold mb-3 line-clamp-2 group-hover:text-blue-500 transition-colors">{post.title}</h3>
-                    <p className="text-muted-foreground text-sm line-clamp-3">{post.desc}</p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+            {blogPosts.length > 0 ? (
+              blogPosts.map((post, i) => (
+                <Link key={i} href={`/blog/${post.slug}`} className="group flex flex-col h-full bg-card border border-border rounded-xl hover:border-blue-500 transition-colors card-gradient-hover">
+                  <div className="relative w-full h-48 overflow-hidden rounded-t-xl">
+                    <Image src={post.image} alt={post.title} fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
                   </div>
-                  <div className="mt-4 flex items-center text-sm font-medium text-blue-500">
-                    Read More <ArrowRight className="ml-2 w-4 h-4" />
+                  <div className="p-6 flex-grow flex flex-col justify-between">
+                    <div>
+                      <div className="text-xs text-muted-foreground mb-2">{post.date}</div>
+                      <h3 className="text-xl font-bold mb-3 group-hover:text-blue-500 transition-colors font-heading">{post.title}</h3>
+                      <p className="text-muted-foreground text-sm line-clamp-3">{post.description}</p>
+                    </div>
+                    <div className="flex items-center text-sm font-medium text-blue-500 mt-4">
+                      Read More <ArrowRight className="ml-2 w-4 h-4" />
+                    </div>
                   </div>
-                </div>
-              </Link>
-            ))}
+                </Link>
+              ))
+            ) : (
+              <div className="col-span-3 text-center py-12">
+                <p className="text-muted-foreground">No blog posts available yet. Add some in Contentful!</p>
+              </div>
+            )}
+          </div>
+
+          <div className="text-center">
+            <Link href="/blog">
+              <Button variant="outline" className="px-8 py-4">View All Posts</Button>
+            </Link>
           </div>
         </div>
       </section>
-
     </div>
   );
 }

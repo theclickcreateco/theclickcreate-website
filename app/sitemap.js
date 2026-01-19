@@ -4,6 +4,7 @@ export default function sitemap() {
   // Mock blog posts slugs from blog/page.js or shared source
   // In a real app, fetch these from DB/CMS
   const blogPosts = [
+    'high-performance-website-2026',
     'responsive-web-design-tips',
     'branding-impacts-business',
     'seo-strategies-modern-websites',

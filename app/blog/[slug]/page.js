@@ -4,64 +4,24 @@ import { notFound } from "next/navigation";
 import { ArrowLeft, Calendar, User } from "lucide-react";
 import { SocialShare } from "@/components/social-share";
 import { AdPlaceholder } from "@/components/ad-placeholder";
+import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
+import { BLOCKS } from "@contentful/rich-text-types";
+import { getBlogPosts, getBlogPostBySlug } from "@/lib/contentful";
 
-// Mock Data (In real app, fetch from CMS/DB)
-const POSTS = {
-  "responsive-web-design-tips": {
-    title: "Top 5 Tips for Responsive Web Design",
-    date: "Jan 15, 2026",
-    author: "Alex Dev",
-    category: "Design",
-    img: "/images/blog-responsive.png",
-    content: (
-      <>
-        <p>Responsive design is non-negotiable in 2026. With mobile traffic surpassing desktop, your site must adapt seamlessly.</p>
-        <h3>1. Use Flexible Grids</h3>
-        <p>Gone are the days of fixed-width layouts. CSS Grid and Flexbox are your best friends.</p>
-        <AdPlaceholder slotId="in-content-1" className="my-8" />
-        <h3>2. Media Queries</h3>
-        <p>Breakpoints should be based on content, not specific devices.</p>
-        <h3>3. Optimized Images</h3>
-        <p>Use Next.js Image component to automatically serve WebP/AVIF formats.</p>
-        <p>...</p>
-      </>
-    )
+// Rich text rendering options
+const richTextOptions = {
+  renderNode: {
+    [BLOCKS.PARAGRAPH]: (node, children) => <p className="mb-4">{children}</p>,
+    [BLOCKS.HEADING_3]: (node, children) => <h3 className="text-2xl font-bold mt-8 mb-4">{children}</h3>,
+    [BLOCKS.HEADING_4]: (node, children) => <h4 className="text-xl font-bold mt-6 mb-3">{children}</h4>,
+    [BLOCKS.UL_LIST]: (node, children) => <ul className="list-disc list-inside mb-4 space-y-2">{children}</ul>,
+    [BLOCKS.OL_LIST]: (node, children) => <ol className="list-decimal list-inside mb-4 space-y-2">{children}</ol>,
   },
-  "branding-impacts-business": {
-    title: "How Branding Impacts Your Business",
-    date: "Jan 10, 2026",
-    author: "Sarah Design",
-    category: "Branding",
-    img: "/images/blog-branding.png",
-    content: (
-      <>
-        <p>Branding is more than just a logo. It's the entire experience your customer has with your company.</p>
-        <AdPlaceholder slotId="in-content-1" className="my-8" />
-        <h3>Consistency is Key</h3>
-        <p>Ensure your colors, fonts, and voice are consistent across all channels.</p>
-      </>
-    )
-  },
-   "seo-strategies-modern-websites": {
-    title: "SEO Strategies for Modern Websites",
-    date: "Jan 05, 2026",
-    author: "Mike SEO",
-    category: "Marketing",
-    img: "/images/hero-illustration.png",
-    content: (
-      <>
-        <p>SEO is constantly evolving. Core Web Vitals are now a major ranking factor.</p>
-        <AdPlaceholder slotId="in-content-1" className="my-8" />
-        <h3>Technical SEO</h3>
-        <p>Ensure your site is fast, secure (HTTPS), and mobile-friendly.</p>
-      </>
-    )
-  }
 };
 
 export async function generateMetadata({ params }) {
   const { slug } = await params;
-  const post = POSTS[slug];
+  const post = await getBlogPostBySlug(slug);
   
   if (!post) {
       return {
@@ -72,16 +32,16 @@ export async function generateMetadata({ params }) {
 
   return {
       title: post.title,
-      description: `Read about ${post.title} on The Click & Create Co blog.`,
+      description: post.description,
       openGraph: {
           title: post.title,
-          description: `Read about ${post.title}.`,
+          description: post.description,
           type: 'article',
-          publishedTime: post.date, // Should be ISO format in real app
+          publishedTime: post.publishedDate,
           authors: [post.author],
           images: [
               {
-                  url: post.img,
+                  url: post.image,
                   width: 1200,
                   height: 630,
                   alt: post.title,
@@ -91,23 +51,18 @@ export async function generateMetadata({ params }) {
   };
 }
 
-export function generateStaticParams() {
-  return Object.keys(POSTS).map((slug) => ({ slug }));
+export async function generateStaticParams() {
+  const posts = await getBlogPosts();
+  return posts.map((post) => ({ slug: post.slug }));
 }
-
-// Redundant component removed. Using wrapper below.
-
-// Wrapper to handle async params if needed, or just standard component 
-// Note: In Next.js 15, params is a Promise. Let's make the main component async.
 
 async function BlogPostContentWrapper({ params }) {
     const { slug } = await params; 
-    const post = POSTS[slug];
+    const post = await getBlogPostBySlug(slug);
     if (!post) return notFound();
     return <BlogPostContent post={post} slug={slug} />;
 }
 
-// Actual Content Component
 function BlogPostContent({ post, slug }) {
   return (
     <article className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
@@ -131,35 +86,34 @@ function BlogPostContent({ post, slug }) {
       </div>
 
       <div className="relative w-full h-[400px] mb-12 rounded-2xl overflow-hidden bg-secondary">
-         <Image src={post.img} alt={post.title} fill className="object-cover" priority />
+         <Image src={post.image} alt={post.title} fill className="object-cover" priority />
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-[1fr_250px] gap-12">
+      <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-12">
         <div className="prose dark:prose-invert prose-lg max-w-none">
-           {post.content}
+           {post.content && typeof post.content === 'object' ? (
+             documentToReactComponents(post.content, richTextOptions)
+           ) : (
+             <div dangerouslySetInnerHTML={{ __html: post.content || '<p>No content available.</p>' }} />
+           )}
+           
+           {/* In-Content Ad */}
+           <div className="my-8 not-prose">
+             <AdPlaceholder slotId="blog-in-content" />
+           </div>
         </div>
         
         <aside className="space-y-8">
-            <div className="sticky top-24">
-                <div className="bg-card border border-border rounded-xl p-6 mb-8">
+            <div className="sticky top-24 space-y-6">
+                <div className="bg-card border border-border rounded-xl p-6">
                     <h3 className="font-bold mb-4">Share this post</h3>
                     <SocialShare url={`https://theclickcreate.com/blog/${slug}`} title={post.title} />
                 </div>
-                 <AdPlaceholder slotId="sidebar-ad" className="min-h-[300px]" />
+                
+                {/* Sidebar Ad */}
+                <AdPlaceholder slotId="blog-sidebar" className="min-h-[600px]" />
             </div>
         </aside>
-      </div>
-      
-      <div className="mt-16 pt-8 border-t border-border">
-          <h3 className="text-2xl font-bold mb-8">Related Posts</h3>
-          {/* Reuse listing grid logic or simplified version */}
-           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                {/* Mock related items */}
-                <div className="bg-secondary/20 p-6 rounded-xl border border-border">
-                    <h4 className="font-bold text-lg mb-2">More in {post.category}</h4>
-                    <p className="text-muted-foreground">Check out other articles in this category.</p>
-                </div>
-           </div>
       </div>
       
       {/* JSON-LD Schema for SEO */}
@@ -170,8 +124,8 @@ function BlogPostContent({ post, slug }) {
             "@context": "https://schema.org",
             "@type": "BlogPosting",
             headline: post.title,
-            image: [post.img], // Needs full URL in production
-            datePublished: "2026-01-01", // Placeholder, need ISO date
+            image: [post.image],
+            datePublished: post.publishedDate,
             author: [{
                 "@type": "Person",
                 name: post.author,
@@ -183,5 +137,4 @@ function BlogPostContent({ post, slug }) {
   );
 }
 
-// Export the wrapper as default to handle async params correctly in Next 15
-export { BlogPostContentWrapper as default };
+export default BlogPostContentWrapper;

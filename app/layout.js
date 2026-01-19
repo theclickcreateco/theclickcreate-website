@@ -48,13 +48,41 @@ export const metadata = {
 };
 
 import { Breadcrumbs } from "@/components/breadcrumbs";
+import Script from "next/script";
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        {/* Google Site Verification Placeholder */}
+        <meta name="google-site-verification" content="YOUR_GSC_VERIFICATION_CODE" />
+        
+        {/* Google Tag Manager - Replace GTM-XXXXXXX with your ID */}
+        <Script id="gtm-base" strategy="afterInteractive">
+          {`(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+          new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+          j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+          'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+          })(window,document,'script','dataLayer','GTM-PWL69FHG');`}
+        </Script>
+
+        {/* Monetag Integration - Replace with your actual Monetag script */}
+        {/* <Script src="https://alwingulla.com/88/p.js" strategy="afterInteractive" /> */}
+        <meta name="monetag" content="7901f319c950ce5c22e8bc16f64c46ae"></meta>
+      </head>
       <body
         className={`${spaceGrotesk.variable} ${firaCode.variable} ${montserrat.variable} antialiased font-sans`}
       >
+        {/* Google Tag Manager (noscript) */}
+        <noscript>
+          <iframe 
+            src="https://www.googletagmanager.com/ns.html?id=GTM-PWL69FHG"
+            height="0" 
+            width="0" 
+            style={{ display: 'none', visibility: 'hidden' }}
+          />
+        </noscript>
+
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
