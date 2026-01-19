@@ -9,7 +9,7 @@ export function AdPlaceholder({ slotId, className = "", adType = "monetag" }) {
         <ins
           className="adsbygoogle"
           style={{ display: "block", textAlign: "center" }}
-          data-ad-client="ca-pub-YOUR_PUBLISHER_ID"
+          data-ad-client="ca-pub-6110592895163597"
           data-ad-slot={slotId}
           data-ad-format="auto"
           data-full-width-responsive="true"
