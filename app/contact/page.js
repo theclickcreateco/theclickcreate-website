@@ -2,8 +2,8 @@
 
 import { useSearchParams, useRouter } from "next/navigation";
 import { Button } from "@/components/button";
-import { Mail, Phone, MapPin, CheckCircle, X, Star } from "lucide-react";
-import { Suspense } from "react";
+import { Mail, Phone, MapPin, CheckCircle, X, Star, Loader2, AlertCircle } from "lucide-react";
+import { Suspense, useState } from "react";
 
 function ContactForm() {
     const searchParams = useSearchParams();
@@ -11,6 +11,9 @@ function ContactForm() {
     const plan = searchParams.get("plan");
     const addonsParam = searchParams.get("addons");
     const addons = addonsParam ? addonsParam.split(",") : [];
+
+    const [status, setStatus] = useState("idle"); // idle, submitting, success, error
+    const [errorMessage, setErrorMessage] = useState("");
 
     const clearPlan = () => {
         const params = new URLSearchParams(searchParams.toString());
@@ -27,6 +30,41 @@ function ContactForm() {
             params.delete("addons");
         }
         router.replace(`/contact?${params.toString()}`, { scroll: false });
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setStatus("submitting");
+        setErrorMessage("");
+
+        const formData = new FormData(e.target);
+        const entries = Object.fromEntries(formData.entries());
+
+        try {
+            const response = await fetch("https://formsubmit.co/ajax/theclickcreateco@gmail.com", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json"
+                },
+                body: JSON.stringify({
+                    ...entries,
+                    _subject: `New Contact Form Submission - ${entries.name}`
+                })
+            });
+
+            if (response.ok) {
+                setStatus("success");
+                e.target.reset();
+            } else {
+                const data = await response.json();
+                setStatus("error");
+                setErrorMessage(data.error || "Something went wrong. Please try again later.");
+            }
+        } catch (error) {
+            setStatus("error");
+            setErrorMessage("Network error. Please check your connection.");
+        }
     };
 
     const defaultMessage = `I'm interested in ${plan ? `the ${plan}` : 'working with you'}.${addons.length > 0 ? ` Also interested in: ${addons.join(", ")}.` : ''}`;
@@ -70,7 +108,21 @@ function ContactForm() {
                 </div>
             )}
 
-            <form className="space-y-6" key={`${plan || 'default'}-${addons.length}`}>
+            {status === "success" && (
+                <div className="mb-6 p-4 bg-green-500/10 border border-green-500/20 rounded-lg flex items-center gap-3 animate-in fade-in slide-in-from-top-2">
+                    <CheckCircle className="w-5 h-5 text-green-500 shrink-0" />
+                    <p className="text-sm font-medium text-green-500">Message sent successfully! We'll get back to you soon.</p>
+                </div>
+            )}
+
+            {status === "error" && (
+                <div className="mb-6 p-4 bg-red-500/10 border border-red-500/20 rounded-lg flex items-center gap-3 animate-in fade-in slide-in-from-top-2">
+                    <AlertCircle className="w-5 h-5 text-red-500 shrink-0" />
+                    <p className="text-sm font-medium text-red-500">{errorMessage}</p>
+                </div>
+            )}
+
+            <form onSubmit={handleSubmit} className="space-y-6" key={`${plan || 'default'}-${addons.length}`}>
                 <input type="hidden" name="plan" value={plan || ""} />
                 <input type="hidden" name="addons" value={addons.join(", ")} />
                 <div>
@@ -92,7 +144,20 @@ function ContactForm() {
                         defaultValue={defaultMessage}
                     ></textarea>
                 </div>
-                <Button className="w-full" type="submit">Send Message</Button>
+                <Button 
+                    className="w-full" 
+                    type="submit" 
+                    disabled={status === "submitting"}
+                >
+                    {status === "submitting" ? (
+                        <>
+                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                            Sending...
+                        </>
+                    ) : (
+                        "Send Message"
+                    )}
+                </Button>
             </form>
         </div>
     );
