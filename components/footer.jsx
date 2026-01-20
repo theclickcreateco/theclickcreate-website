@@ -18,18 +18,18 @@ export function Footer() {
           </div>
           
           <div className="flex space-x-6">
-            <a href="#" className="text-muted-foreground hover:text-blue-500 transition-colors">
+            <Link href="/" className="text-muted-foreground hover:text-blue-500 transition-colors">
               <span className="sr-only">Twitter</span>
               <Twitter className="h-6 w-6" />
-            </a>
-            <a href="#" className="text-muted-foreground hover:text-blue-500 transition-colors">
+            </Link>
+            <Link href="/" className="text-muted-foreground hover:text-blue-500 transition-colors">
               <span className="sr-only">Facebook</span>
               <Facebook className="h-6 w-6" />
-            </a>
-            <a href="#" className="text-muted-foreground hover:text-blue-500 transition-colors">
+            </Link>
+            <Link href="/" className="text-muted-foreground hover:text-blue-500 transition-colors">
               <span className="sr-only">LinkedIn</span>
               <Linkedin className="h-6 w-6" />
-            </a>
+            </Link>
           </div>
         </div>
       </div>

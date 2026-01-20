@@ -1,7 +1,7 @@
 import React from "react";
 
-export function Button({ children, variant = "primary", className = "", ...props }) {
-  const baseStyles = "inline-flex items-center justify-center rounded-md px-6 py-3 text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none cursor-pointer";
+export function Button({ children, variant = "primary", className = "", as: Component = "button", ...props }) {
+  const baseStyles = "inline-flex items-center justify-center rounded-md px-6 py-3.5 text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none cursor-pointer";
   
   const variants = {
     primary: "bg-gradient-to-r from-[#2A9D8F] via-[#264653] to-[#F4A261] bg-[length:200%_auto] hover-gradient-x transition-all duration-500 text-white shadow-lg",
@@ -11,11 +11,11 @@ export function Button({ children, variant = "primary", className = "", ...props
   };
 
   return (
-    <button
+    <Component
       className={`${baseStyles} ${variants[variant]} ${className}`}
       {...props}
     >
       {children}
-    </button>
+    </Component>
   );
 }

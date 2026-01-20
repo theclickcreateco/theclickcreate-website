@@ -72,7 +72,7 @@ export default function Services() {
                     ))}
                  </ul>
                  <Link href="/pricing">
-                    <Button variant="outline">View Plans <ArrowRight className="ml-2 w-4 h-4" /></Button>
+                    <Button as="span" variant="outline">View Plans <ArrowRight className="ml-2 w-4 h-4" /></Button>
                  </Link>
               </div>
             </div>

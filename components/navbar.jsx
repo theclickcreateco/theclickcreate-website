@@ -73,7 +73,7 @@ export function Navbar() {
                 <ThemeIcon />
               </Button>
               <Link href="/contact">
-                  <Button variant="primary" className="ml-4 min-h-[48px] min-w-[48px]">Get a Quote</Button>
+                  <Button as="span" variant="primary" className="ml-4 min-h-[48px] min-w-[48px]">Get a Quote</Button>
               </Link>
             </div>
           </div>
@@ -123,7 +123,7 @@ export function Navbar() {
              </div>
              <div className="px-3 py-2">
                  <Link href="/contact" onClick={() => setIsOpen(false)}>
-                    <Button variant="primary" className="w-full min-h-[48px]">Get a Quote</Button>
+                    <Button as="span" variant="primary" className="w-full min-h-[48px]">Get a Quote</Button>
                  </Link>
              </div>
           </div>

@@ -28,8 +28,10 @@
     "tailwindcss": "^4"
   },
   "browserslist": [
-    "last 2 versions",
+    "last 1 version",
+    "> 1%",
     "not dead",
-    "not ie 11"
+    "not ie 11",
+    "not op_mini all"
   ]
 }

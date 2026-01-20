@@ -29,10 +29,10 @@ export default async function Home() {
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <Link href="/contact" className="w-full sm:w-auto">
-                <Button className="text-lg px-8 py-6 w-full sm:w-auto min-h-[64px]">Get a Free Quote</Button>
+                <Button as="span" className="text-lg px-8 py-6 w-full sm:w-auto min-h-[64px]">Get a Free Quote</Button>
               </Link>
               <Link href="#portfolio" className="w-full sm:w-auto">
-                <Button variant="outline" className="text-lg px-8 py-6 w-full sm:w-auto min-h-[64px]">
+                <Button as="span" variant="outline" className="text-lg px-8 py-6 w-full sm:w-auto min-h-[64px]">
                   View Work
                 </Button>
               </Link>
@@ -56,11 +56,11 @@ export default async function Home() {
             {/* Service 1 */}
             <div className="bg-card border border-border rounded-xl p-6 hover:shadow-lg transition-shadow group card-gradient-hover">
               <div className="relative w-full h-48 mb-6 overflow-hidden rounded-lg">
-                 <Image 
+                  <Image 
                     src="/images/service-web.png" 
                     alt="Web Development" 
                     fill 
-                    sizes="(max-width: 768px) 100vw, 33vw"
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                     className="object-cover group-hover:scale-105 transition-transform duration-500" 
                   />
               </div>
@@ -71,11 +71,11 @@ export default async function Home() {
             {/* Service 2 */}
             <div className="bg-card border border-border rounded-xl p-6 hover:shadow-lg transition-shadow group card-gradient-hover">
                <div className="relative w-full h-48 mb-6 overflow-hidden rounded-lg">
-                 <Image 
+                  <Image 
                     src="/images/service-ui.png" 
                     alt="UI/UX Design" 
                     fill 
-                    sizes="(max-width: 768px) 100vw, 33vw"
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                     className="object-cover group-hover:scale-105 transition-transform duration-500" 
                   />
               </div>
@@ -86,11 +86,11 @@ export default async function Home() {
             {/* Service 3 */}
             <div className="bg-card border border-border rounded-xl p-6 hover:shadow-lg transition-shadow group card-gradient-hover">
                <div className="relative w-full h-48 mb-6 overflow-hidden rounded-lg">
-                 <Image 
+                  <Image 
                     src="/images/service-marketing.png" 
                     alt="Marketing" 
                     fill 
-                    sizes="(max-width: 768px) 100vw, 33vw"
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                     className="object-cover group-hover:scale-105 transition-transform duration-500" 
                   />
               </div>

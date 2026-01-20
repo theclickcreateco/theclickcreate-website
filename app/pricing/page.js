@@ -162,7 +162,7 @@ export default function Pricing() {
             </div>
 
             <Link href={`/contact?plan=${encodeURIComponent(plan.name)}`} className="w-full">
-                <Button variant={plan.popular ? "primary" : "outline"} className="w-full py-6 text-lg">
+                <Button as="span" variant={plan.popular ? "primary" : "outline"} className="w-full py-6 text-lg">
                     {plan.cta}
                 </Button>
             </Link>

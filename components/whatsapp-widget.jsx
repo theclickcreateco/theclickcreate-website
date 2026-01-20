@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { MessageCircle } from "lucide-react";
 
 export function WhatsAppWidget() {
@@ -8,7 +9,7 @@ export function WhatsAppWidget() {
   const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
 
   return (
-    <a
+    <Link
       href={whatsappUrl}
       target="_blank"
       rel="noopener noreferrer"
@@ -19,6 +20,6 @@ export function WhatsAppWidget() {
       <span className="absolute right-16 bg-card text-card-foreground border border-border px-3 py-1 rounded-md text-sm font-medium opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap shadow-sm pointer-events-none">
         Chat with us
       </span>
-    </a>
+    </Link>
   );
 }
