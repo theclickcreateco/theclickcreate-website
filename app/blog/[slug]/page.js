@@ -1,3 +1,4 @@
+import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -14,8 +15,18 @@ const richTextOptions = {
     [BLOCKS.PARAGRAPH]: (node, children) => <p className="mb-4">{children}</p>,
     [BLOCKS.HEADING_3]: (node, children) => <h3 className="text-2xl font-bold mt-8 mb-4">{children}</h3>,
     [BLOCKS.HEADING_4]: (node, children) => <h4 className="text-xl font-bold mt-6 mb-3">{children}</h4>,
-    [BLOCKS.UL_LIST]: (node, children) => <ul className="list-disc list-inside mb-4 space-y-2">{children}</ul>,
-    [BLOCKS.OL_LIST]: (node, children) => <ol className="list-decimal list-inside mb-4 space-y-2">{children}</ol>,
+    [BLOCKS.UL_LIST]: (node, children) => <ul className="list-disc pl-6 mb-4 space-y-2">{children}</ul>,
+    [BLOCKS.OL_LIST]: (node, children) => <ol className="list-decimal pl-6 mb-4 space-y-2">{children}</ol>,
+    [BLOCKS.LIST_ITEM]: (node, children) => {
+      // Clean up children if they are wrapped in paragraphs within the LI
+      const transformedChildren = React.Children.map(children, child => {
+        if (React.isValidElement(child) && child.type === 'p') {
+          return child.props.children;
+        }
+        return child;
+      });
+      return <li className="leading-relaxed">{transformedChildren}</li>;
+    },
   },
 };
 
@@ -110,8 +121,8 @@ function BlogPostContent({ post, slug }) {
                     <SocialShare url={`https://theclickcreate.com/blog/${slug}`} title={post.title} />
                 </div>
                 
-                {/* Sidebar Ad */}
-                <AdPlaceholder slotId="blog-sidebar" className="min-h-[600px]" />
+                {/* Sidebar Ad - Minimal space when empty */}
+                <AdPlaceholder slotId="blog-sidebar" />
             </div>
         </aside>
       </div>

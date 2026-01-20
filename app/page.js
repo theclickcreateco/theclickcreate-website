@@ -21,7 +21,7 @@ export default async function Home() {
       <section className="relative px-4 sm:px-6 lg:px-8 pt-20 pb-20 md:pt-32 md:pb-32 overflow-hidden">
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
           <div className="flex flex-col gap-6 z-10">
-            <h1 className="text-5xl md:text-7xl font-bold font-heading tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-[#2A9D8F] via-[#264653] to-[#F4A261] min-h-[1.5em]">
+            <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold font-heading tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-[#2A9D8F] via-[#264653] to-[#F4A261] leading-[1.1] py-2">
               <TypewriterEffect words={["Code. Build. Deploy.", "Click. Create. Done."]} />
             </h1>
             <p className="text-xl text-muted-foreground max-w-lg">

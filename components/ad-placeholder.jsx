@@ -4,22 +4,10 @@ import React from "react";
 
 export function AdPlaceholder({ slotId, className = "", adType = "monetag" }) {
   return (
-    <div className={`w-full flex items-center justify-center bg-secondary/20 rounded-lg border border-border ${className}`}>
-      {adType === "adsense" ? (
-        <ins
-          className="adsbygoogle"
-          style={{ display: "block", textAlign: "center" }}
-          data-ad-client="ca-pub-6110592895163597"
-          data-ad-slot={slotId}
-          data-ad-format="auto"
-          data-full-width-responsive="true"
-        />
-      ) : (
-        <div id={`monetag-${slotId}`} className="w-full min-h-[250px] flex items-center justify-center">
-          {/* Monetag ads will be injected here */}
-          <div className="text-xs text-muted-foreground">Advertisement ({slotId})</div>
-        </div>
-      )}
+    <div className={`w-full flex items-center justify-center bg-secondary/5 rounded-lg border border-border/50 ${className}`}>
+      <div className="text-[10px] uppercase tracking-widest text-muted-foreground/30 py-2">
+        Space Reserved
+      </div>
     </div>
   );
 }

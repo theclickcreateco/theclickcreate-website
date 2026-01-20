@@ -55,21 +55,35 @@ export default function RootLayout({ children }) {
     <html lang="en" suppressHydrationWarning>
       <head>
         {/* Monetag JS Script */}
-        <Script 
+        {/* <Script 
           src="https://quge5.com/88/tag.min.js" 
           data-zone="203647" 
           async 
           data-cfasync="false"
           strategy="afterInteractive"
-        />
+        /> */}
 
         {/* Google AdSense */}
-        <Script
+        {/* <Script
           async
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6110592895163597"
           crossOrigin="anonymous"
           strategy="afterInteractive"
+        /> */}
+
+        {/* Google Analytics (gtag.js) */}
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-MEYN7LRDLS"
+          strategy="afterInteractive"
         />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-MEYN7LRDLS');
+          `}
+        </Script>
 
         {/* Google Site Verification Placeholder */}
         <meta name="google-site-verification" content="YOUR_GSC_VERIFICATION_CODE" />
@@ -85,7 +99,7 @@ export default function RootLayout({ children }) {
 
         {/* Monetag Integration - Replace with your actual Monetag script */}
         {/* <Script src="https://alwingulla.com/88/p.js" strategy="afterInteractive" /> */}
-        <meta name="monetag" content="7901f319c950ce5c22e8bc16f64c46ae"></meta>
+        {/* <meta name="monetag" content="7901f319c950ce5c22e8bc16f64c46ae"></meta> */}
       </head>
       <body
         className={`${spaceGrotesk.variable} ${firaCode.variable} ${montserrat.variable} antialiased font-sans`}
