@@ -8,16 +8,19 @@ import { WhatsAppWidget } from "@/components/whatsapp-widget";
 const firaCode = Fira_Code({
   subsets: ["latin"],
   variable: "--font-fira-code",
+  display: "swap",
 });
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
   variable: "--font-space-grotesk",
+  display: "swap",
 });
 
 const montserrat = Montserrat({
   subsets: ["latin"],
   variable: "--font-montserrat",
+  display: "swap",
 });
 
 export const metadata = {
@@ -74,9 +77,9 @@ export default function RootLayout({ children }) {
         {/* Google Analytics (gtag.js) */}
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-MEYN7LRDLS"
-          strategy="afterInteractive"
+          strategy="lazyOnload"
         />
-        <Script id="google-analytics" strategy="afterInteractive">
+        <Script id="google-analytics" strategy="lazyOnload">
           {`
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
@@ -100,6 +103,8 @@ export default function RootLayout({ children }) {
         {/* Monetag Integration - Replace with your actual Monetag script */}
         {/* <Script src="https://alwingulla.com/88/p.js" strategy="afterInteractive" /> */}
         {/* <meta name="monetag" content="7901f319c950ce5c22e8bc16f64c46ae"></meta> */}
+        <link rel="preconnect" href="https://www.googletagmanager.com" />
+        <link rel="preconnect" href="https://images.ctfassets.net" />
       </head>
       <body
         className={`${spaceGrotesk.variable} ${firaCode.variable} ${montserrat.variable} antialiased font-sans`}

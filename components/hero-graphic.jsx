@@ -72,7 +72,6 @@ export function HeroGraphic() {
 function FloatingIcon({ icon, x, y, delay }) {
     return (
         <motion.div
-            initial={{ opacity: 0, scale: 0 }}
             animate={{ 
                 opacity: 1, 
                 scale: 1,

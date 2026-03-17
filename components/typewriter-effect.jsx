@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 
 export function TypewriterEffect({ words, className }) {
   const [currentWordIndex, setCurrentWordIndex] = useState(0);
-  const [currentText, setCurrentText] = useState("");
+  const [currentText, setCurrentText] = useState(words[0] || "");
   const [isDeleting, setIsDeleting] = useState(false);
 
   useEffect(() => {
